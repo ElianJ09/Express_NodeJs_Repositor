@@ -1,0 +1,20 @@
+{
+  "name": "express_workshop",
+  "version": "1.0.0",
+  "description": "Installing a init by npm package, like a API for ExpressJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "api",
+    "rest",
+    "express",
+    "nodejs"
+  ],
+  "author": "Elian RG",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
