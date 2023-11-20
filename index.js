@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 /*
-    Vebos HTTP
+    Verbs in HTTP
     GET
     POST
     PATCH
@@ -12,9 +12,15 @@ const app = express();
 
 app.get("/", (req, res, next) => {
     res.status(200);
-    res.send("Bienvenido"); 
+    res.send("Welcome to this page!"); 
 });
 
-app.listen(3000, () =>{
+app.get("/:name", (req, res, next) => {
+    console.log(req.params.name)
+    res.status(200);
+    res.send("Hello " + req.params.name + "!")
+})
+
+app.listen(process.env.PORT || 3000, () =>{
     console.log("Server is running now!");
 });
