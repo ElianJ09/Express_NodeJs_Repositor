@@ -1,25 +1,29 @@
+//const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
+const pokemon = require('./routes/pokemon')
+const morgan = require('morgan')
 
 /*
     Verbs in HTTP
-    GET
-    POST
-    PATCH
-    PUT 
-    DELETE
+    GET - Obtain resources
+    POST - Save resources
+    PATCH - Modify a little part of a resource
+    PUT - Modify a complete resource 
+    DELETE - delete a resource
 */
 
+app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended: true}));
+
 app.get("/", (req, res, next) => {
-    res.status(200);
-    res.send("Welcome to this page!"); 
+    return res.status(200).send('Bienvenido a la Pokedex!'); 
 });
 
-app.get("/:name", (req, res, next) => {
-    console.log(req.params.name)
-    res.status(200);
-    res.send("Hello " + req.params.name + "!")
-})
+app.use("/pokemon", pokemon);
 
 app.listen(process.env.PORT || 3000, () =>{
     console.log("Server is running now!");
