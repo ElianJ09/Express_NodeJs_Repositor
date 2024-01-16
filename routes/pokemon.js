@@ -17,6 +17,43 @@ pokemon.post("/", async (req, res, next) => {
     return res.status(500).json({code: 500, message: "Campos incompletos, llenelos correctamente!"})
 });
 
+pokemon.delete("/:id([0-9]{1,4})", async (req, res, next) => {
+    const query = `DELETE FROM pokemon WHERE pok_id=${req.params.id}`;
+
+    const deleteRow = await db.query(query);
+
+    return (deleteRow.affectedRows == 1) ? 
+        res.status(200).json({code: 200, message: "Pokemon borrado correctamente"}):
+        res.status(404).json({code: 404, message: "Pokemon no encontrado!"})
+});
+
+pokemon.put("/:id([0-9]{1,4})", async (req, res, next) => {
+    const { pok_name, pok_height, pok_weight, pok_base_experience } = req.body;
+
+    if (pok_name && pok_height && pok_weight && pok_base_experience){
+        let query = `UPDATE pokemon SET pok_name='${pok_name}', pok_height=${pok_height}, `;
+        query += `pok_weight=${pok_weight}, pok_base_experience=${pok_base_experience} WHERE pok_id = ${req.params.id}`; 
+
+        const updatedRow = await db.query(query);
+        return (updatedRow.affectedRows == 1) ? 
+            res.status(200).json({code: 200, message: "Pokemon modificado correctamente!"}):
+            res.status(500).json({code: 500, message: "Ocurrio un error al modificar!"})
+    }
+    return res.status(500).json({code: 500, message: "Campos incompletos, llenelos correctamente!"});
+});
+
+pokemon.patch("/:id([0-9]{1,4})/name", async (req, res, next) => {
+    if(req.body.pok_name){
+        let query = `UPDATE pokemon SET pok_name='${req.body.pok_name}' WHERE pok_id = ${req.params.id}`; 
+
+        const updatedRow = await db.query(query);
+        return (updatedRow.affectedRows == 1) ? 
+            res.status(200).json({code: 200, message: "Pokemon modificado correctamente!"}):
+            res.status(500).json({code: 500, message: "Ocurrio un error al modificar!"})
+    }
+    return res.status(500).json({code:500, message: "Campo de nombre incompleto!"})
+});
+
 pokemon.get("/", async (req, res, next) => {
     const pokemon = await db.query("SELECT * FROM pokemon")
     return res.status(200).json({code: 200, message: pokemon});
