@@ -14,6 +14,7 @@ const user = require('./routes/user');
 const auth = require('./middleware/auth');
 const notFound = require('./middleware/notFound');
 const index = require('./middleware/index')
+const corsControl = require('./middleware/cors');
 
 /*
     Verbs in HTTP
@@ -24,6 +25,7 @@ const index = require('./middleware/index')
     DELETE - delete a resource
 */
 
+app.use(corsControl);
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
