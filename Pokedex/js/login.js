@@ -1,11 +1,15 @@
 window.onload = init;
 
 function init() {
-    document.querySelector('.btn-secondary').addEventListener('click', function(){
-        window.location.href = "signin.html"
-    });
-
-    document.querySelector('.btn-primary').addEventListener('click', login);
+    if(!localStorage.getItem("token")){
+        document.querySelector('.btn-secondary').addEventListener('click', function(){
+            window.location.href = "signin.html"
+        });
+    
+        document.querySelector('.btn-primary').addEventListener('click', login);
+    } else {
+        window.location.href = "pokedex.html"
+    }
 }
 
 function login(){
@@ -20,7 +24,13 @@ function login(){
             user_password: password
         }
     }).then(function(res) {
-        console.log(res);
+        if(res.data.code === 200){
+            localStorage.setItem("token", res.data.token);
+        } else if(res.data.code === 401){
+            alert("Contraseña y/o correo incorrectos!");
+        } else {
+            alert("Existen campos en blanco!");
+        }
     }).catch(function(err){
         console.log(err);
     });

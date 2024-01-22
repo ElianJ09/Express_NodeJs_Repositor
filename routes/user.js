@@ -36,10 +36,10 @@ user.post("/login", async (req, res, next) =>{
             return res.status(200).json({code: 200, message: "Autenticacion correcta!, enviando token...", token: token});
         }
         else{
-            return res.status(401).json({code: 401, message: "Los datos son incorrectos!"})
+            return res.status(200).json({code: 401, message: "Los datos son incorrectos!"})
         }
     }
-    return res.status(500).json({code: 500, message: "Campos incompletos, llenelos correctamente!"})
+    return res.status(200).json({code: 500, message: "Campos incompletos, llenelos correctamente!"})
 });
 
 user.get("/", async (req, res, next) =>{
